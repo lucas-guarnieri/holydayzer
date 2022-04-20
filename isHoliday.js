@@ -1,13 +1,4 @@
-import express from 'express';
-import cors from 'cors';
-
-// import isHoliday from './isHoliday.js';
-
-const app = express();
-app.use(cors());
-
-
-app.get('/holidays', (req, res) => {
+export default function isHoliday(){
     const holidays = [
         { date: "1/1/2022", name: "Confraternização mundial" },
         { date: "1/3/2022", name: "Carnaval" },
@@ -21,12 +12,13 @@ app.get('/holidays', (req, res) => {
         { date: "11/15/2022", name: "Proclamação da República" },
         { date: "12/25/2022", name: "Natal" }
       ];
-    res.send(holidays);
-  });
-
-app.get('/is-today-holiday', (req, res) => {
-  let ans = isHoliday();
-  res.send(ans);
-})
-
-app.listen(4000);
+    let today = new Date();
+    let dateStr = today.toDateString();
+    
+    for (let i = 0; i<holidays.length(); i++){
+        if (dateStr === holidays[i].date){
+            return (`Sim, hoje é ${ holidays[i].name}`);
+        }
+    }
+    return ("Não, hoje não é feriado");
+}
